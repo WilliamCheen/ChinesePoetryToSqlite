@@ -7,9 +7,7 @@
 - 滑动到网页最下方,找到 poems Artifacts
 - 下载解压即可使用
 
-ps.解压后有两个 db 文件,他们是一样的,有一个重命名添加了文件摘要信息,以方便对比 db 是否有改变过
-
-pps.每天 0 点执行构建脚本生成 sqlite3 db Artifacts,文件有效期 7 天
+ps.每天 0 点执行构建脚本生成 sqlite3 db Artifacts,文件有效期 7 天
 
 # Thanks
 
