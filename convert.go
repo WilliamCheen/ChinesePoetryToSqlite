@@ -27,6 +27,7 @@ var sqlFileHansPath = filepath.Join(sqlDir, "poems_hans.sql")
 var sqlFileHantPath = filepath.Join(sqlDir, "poems_hant.sql")
 var databaseDir = filepath.Join(outputDir, "database")
 var databaseFilePath = filepath.Join(databaseDir, "poems.db")
+var counter = 1
 
 type JsonFile struct {
 	filePath string
@@ -102,17 +103,6 @@ func createDatabaseAndTable() {
 		log.Printf("%q: %s\n", err, sqlStmt)
 		return
 	}
-}
-
-// 将原始Json文件导入成JsonFile结构数组
-func importToJsonFiles() []JsonFile {
-	jsonFiles := make([]JsonFile, 0)
-	jsonFiles = append(jsonFiles, createJsonFiles("json", "poet.tang.*.json", "shi", "tang")...)
-	jsonFiles = append(jsonFiles, createJsonFiles("json", "poet.song.*.json", "shi", "song")...)
-	jsonFiles = append(jsonFiles, createJsonFiles("json", "ci.song.*.json", "ci", "song")...)
-	jsonFiles = append(jsonFiles, createJsonFiles("yuanqu", "yuanqu.json", "qu", "yuan")...)
-	jsonFiles = append(jsonFiles, createJsonFiles("shijing", "shijing.json", "shige", "zhou")...)
-	return jsonFiles
 }
 
 func createJsonFiles(dir string, glob string, category string, dynasty string) []JsonFile {
@@ -195,7 +185,9 @@ func parseJsonByLine(bytes []byte, category string, dynasty string) {
 		return
 	}
 
-	fmt.Printf("title %s, rhythmic %s  \n", title, rhythmic)
+	fmt.Printf("(%d) title %s, rhythmic %s  \n", counter, title, rhythmic)
+
+	counter++
 
 	appendInsertSqlByLine(category, dynasty, title, author, rhythmic, chapter, section, notes, paragraphs)
 }
@@ -346,7 +338,10 @@ func writeToDatabase() {
 	}
 	defer db.Close()
 
-	f, _ := os.Open(sqlFileHansPath)
+	f, err := os.Open(sqlFileHansPath)
+	if err != nil {
+		log.Fatal(err)
+	}
 	scanner := bufio.NewScanner(f)
 	for scanner.Scan() {
 		sqlString := scanner.Text()
@@ -357,6 +352,17 @@ func writeToDatabase() {
 			return
 		}
 	}
+}
+
+// 将原始Json文件导入成JsonFile结构数组
+func importToJsonFiles() []JsonFile {
+	jsonFiles := make([]JsonFile, 0)
+	jsonFiles = append(jsonFiles, createJsonFiles("json", "poet.tang.*.json", "shi", "tang")...)
+	jsonFiles = append(jsonFiles, createJsonFiles("json", "poet.song.*.json", "shi", "song")...)
+	jsonFiles = append(jsonFiles, createJsonFiles("ci", "ci.song.*.json", "ci", "song")...)
+	jsonFiles = append(jsonFiles, createJsonFiles("yuanqu", "yuanqu.json", "qu", "yuan")...)
+	jsonFiles = append(jsonFiles, createJsonFiles("shijing", "shijing.json", "shige", "zhou")...)
+	return jsonFiles
 }
 
 func main() {

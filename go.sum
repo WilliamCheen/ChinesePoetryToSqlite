@@ -1,5 +1,3 @@
-github.com/Sloaix/opencc v0.0.0-20210813153906-28e66175182c h1:eQG2NQcWpPn1xpVTTc/3igP1uO2xg1N+hO5HQUC+RJg=
-github.com/Sloaix/opencc v0.0.0-20210813153906-28e66175182c/go.mod h1:gkTsCig9S0LMSiUiupLkcBoEDaIgBE5HINbb7WCMCrw=
 github.com/Sloaix/opencc v0.0.1 h1:uUZ+65wgVrD1urTWOecu+9fQu+HiEwBrNMPbwBXAcVU=
 github.com/Sloaix/opencc v0.0.1/go.mod h1:gkTsCig9S0LMSiUiupLkcBoEDaIgBE5HINbb7WCMCrw=
 github.com/buger/jsonparser v1.1.1 h1:2PnMjfWD7wBILjqQbt530v576A/cAbQvEW9gGIpYMUs=
